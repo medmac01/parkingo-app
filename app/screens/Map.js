@@ -12,6 +12,8 @@ import MapView from "react-native-maps";
 import Modal from "react-native-modal";
 import Dropdown from "react-native-modal-dropdown";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
+// import CSVReader from 'react-csv-reader';
+
 
 import * as theme from "../theme";
 
@@ -341,7 +343,7 @@ class ParkingMap extends Component {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
-        <MapView initialRegion={currentPosition} style={styles.map}>
+        <MapView initialRegion={currentPosition} style={styles.map} mapType="satellite">
           {parkings.map(parking => (
             <Marker
               key={`marker-${parking.id}`}
