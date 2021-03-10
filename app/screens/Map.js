@@ -28,13 +28,10 @@ const parkingsSpots = [
     spots: 20,
     free: 10,
     coordinate: {
-      latitude: 34.041501,
-      longitude: -5.0404222
+      latitude: 34.045114,
+      longitude: -5.063227
     },
-    description: `Description about this parking lot
-
-Open year 2018
-Secure with CTV`
+    description: `Presidence Parking`
   },
   {
     id: 2,
@@ -44,13 +41,10 @@ Secure with CTV`
     spots: 25,
     free: 20,
     coordinate: {
-      latitude: 34.041501,
-      longitude: -5.0404222
+      latitude: 34.046813,
+      longitude: -5.066030
     },
-    description: `Description about this parking lot
-
-Open year 2014
-Secure with CTV`
+    description: `Rear Parking`
   },
   {
     id: 3,
@@ -60,13 +54,10 @@ Secure with CTV`
     spots: 50,
     free: 25,
     coordinate: {
-      latitude: 34.041501,
-      longitude: -5.0404222
+      latitude: 34.044515,
+      longitude: -5.068023
     },
-    description: `Description about this parking lot
-
-Open year 2019
-Secure with CTV`
+    description: `South Parking`
   }
 ];
 
@@ -378,8 +369,8 @@ class ParkingMap extends Component {
 
 ParkingMap.defaultProps = {
   currentPosition: {
-    latitude: 34.041501,
-    longitude: -5.0404222,
+    latitude: 34.045385,
+    longitude: -5.065339,
     latitudeDelta: 0.0122,
     longitudeDelta: 0.0121
   },
