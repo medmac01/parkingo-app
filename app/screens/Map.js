@@ -127,13 +127,13 @@ class ParkingMap extends Component {
             <View style={styles.parkingInfo}>
               <View style={styles.parkingIcon}>
                 <Ionicons
-                  name="ios-pricetag"
+                  name="ios-car"
                   size={theme.SIZES.icon}
                   color={theme.COLORS.gray}
                 />
                 <Text style={{ marginLeft: theme.SIZES.base }}>
                   {" "}
-                  ${item.price}
+                  {item.free}/{item.spots}
                 </Text>
               </View>
               <View style={styles.parkingIcon}>
@@ -155,11 +155,11 @@ class ParkingMap extends Component {
               <View style={styles.buyTotal}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                   <FontAwesome
-                    name="dollar"
+                    name="pricetag"
                     size={theme.SIZES.icon * 1.25}
                     color={theme.COLORS.white}
                   />
-                  <Text style={styles.buyTotalPrice}>{totalPrice}</Text>
+                  <Text style={styles.buyTotalPrice}>Go</Text>
                 </View>
                 <Text style={{ color: theme.COLORS.white }}>
                   {item.price}x{hours[item.id]} hrs
@@ -350,7 +350,7 @@ class ParkingMap extends Component {
                     this.state.active === parking.id ? styles.active : null
                   ]}
                 >
-                  <Text style={styles.markerPrice}>${parking.price}</Text>
+                  <Text style={styles.markerPrice}>P{parking.id}</Text>
                   <Text style={styles.markerStatus}>
                     {" "}
                     ({parking.free}/{parking.spots})

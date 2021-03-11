@@ -5,11 +5,6 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
-    "splash": {
-      "image": "./app/assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
@@ -23,10 +18,20 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
+      },
+      "splash": {
+        "ldpi": "./app/assets/splash/android/drawable-ldpi/splash.png",
+        "mdpi": "./app/assets/splash/android/drawable-mdpi/splash.png",
+        "hdpi": "./app/assets/splash/android/drawable-hdpi/splash.png",
+        "xhdpi": "./app/assets/splash/android/drawable-xhdpi/splash.png",
+        "xxhdpi": "./app/assets/splash/android/drawable-xxhdpi/splash.png",
+        "xxxhdpi": "./app/assets/splash/android/drawable-xxxhdpi/splash.png"
       }
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "",
+    "githubUrl": "https://github.com/medmac01/uemf-park"
   }
 }

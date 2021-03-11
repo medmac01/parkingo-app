@@ -1,4 +1,5 @@
 // import 'react-native-gesture-handler';
+import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View ,Image, TouchableHighlight, Button } from 'react-native';
@@ -8,9 +9,43 @@ import Map from './app/screens/Map';
  
 
 
-export default function App() {
-  return ( <Map /> )
+export default class App extends React.Component{
+  // state = {
+  //   appIsReady: false,
+  // };
+
+  // async componentDidMount () {
+  //   // Prevent native splash screen from autohiding
+  //   try {
+  //     await SplashScreen.preventAutoHideAsync();
+  //   } catch (e) {
+  //     console.warn(e);
+  //   }
+  //   this.prepareResources();
+  // }
+
+  // prepareResources = async () => {
+  //   try {
+  //     await performAPICalls();
+  //     await downloadAssets();
+  //   } catch (e) {
+  //     console.warn(e);
+  //   } finally {
+  //     this.setState({ appIsReady: true }, async () => {
+  //       await SplashScreen.hideAsync();
+  //     });
+  //   }
+  // };
+
+  render() {
+    return ( <Map /> );
+  }
+
+
+
+
   
+   
 }
 
 const styles = StyleSheet.create({
