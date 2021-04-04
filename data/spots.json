@@ -1,0 +1,60 @@
+{
+    "parkings" : [
+        {
+            "id": 1,
+            "rating": 4.2,
+            "capacity": 198,
+            "free": 66,
+            "pending": 11 
+          },
+        {
+            "id": 2,
+            "rating": 3.8,
+            "capacity": 118,
+            "free": 81,
+            "pending": 14 
+          },
+        {
+            "id": 3,
+            "rating": 4.4,
+            "capacity": 91,
+            "free": 43,
+            "pending": 2 
+          }
+          
+    ],
+    "spots" : [
+        {
+            "id": 1,
+            "parking_number":1,
+            "status": 1
+        },
+        {
+            "id": 2,
+            "parking_number":2,
+            "status": 1
+        },
+        {
+            "id": 3,
+            "parking_number":1,
+            "status": 1
+        },
+        {
+            "id": 4,
+            "parking_number":3,
+            "status": -1
+        },
+        {
+            "id": 5,
+            "parking_number":3,
+            "status": 0
+        },
+        {
+            "id": 6,
+            "parking_number":1,
+            "status": 0
+        }
+        
+    ]
+}
+

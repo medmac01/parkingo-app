@@ -3,6 +3,7 @@ const COLORS = {
   gray: '#33a937',
   black: '#3D4448',
   white: '#FFFFFF',
+  yellow: '#FAA916',
   overlay: '#C1BEC0',
 };
 

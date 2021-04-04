@@ -16,17 +16,21 @@ import { FontAwesome, Ionicons } from "@expo/vector-icons";
 
 
 import * as theme from "../theme";
+import { color } from "react-native-reanimated";
 
 const { Marker } = MapView;
 const { height, width } = Dimensions.get("screen");
+const input = require("../../data/spots.json");
+
 const parkingsSpots = [
   {
     id: 1,
     title: "Parking 1",
     price: 5,
-    rating: 4.2,
-    spots: 20,
-    free: 10,
+    rating: input.parkings[0].rating,
+    spots: input.parkings[0].capacity,
+    free: input.parkings[0].free,
+    pending: input.parkings[0].pending,
     coordinate: {
       latitude: 34.045114,
       longitude: -5.063227
@@ -37,9 +41,10 @@ const parkingsSpots = [
     id: 2,
     title: "Parking 2",
     price: 7,
-    rating: 3.8,
-    spots: 25,
-    free: 20,
+    rating: input.parkings[1].rating,
+    spots: input.parkings[1].capacity,
+    free: input.parkings[1].free,
+    pending: input.parkings[1].pending,
     coordinate: {
       latitude: 34.046813,
       longitude: -5.066030
@@ -50,9 +55,10 @@ const parkingsSpots = [
     id: 3,
     title: "Parking 3",
     price: 10,
-    rating: 4.9,
-    spots: 50,
-    free: 25,
+    rating: input.parkings[2].rating,
+    spots: input.parkings[2].capacity,
+    free: input.parkings[2].free,
+    pending: input.parkings[2].pending,
     coordinate: {
       latitude: 34.044515,
       longitude: -5.068023
@@ -60,6 +66,7 @@ const parkingsSpots = [
     description: `South Parking`
   }
 ];
+
 
 class ParkingMap extends Component {
   state = {
@@ -90,7 +97,7 @@ class ParkingMap extends Component {
     return (
       <View style={styles.header}>
         <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={styles.headerTitle}>Detected location</Text>
+          <Text style={styles.headerTitle}>Current parkings</Text>
           <Text style={styles.headerLocation}>Euromed University of Fez</Text>
         </View>
         <View
@@ -116,7 +123,10 @@ class ParkingMap extends Component {
         <View style={[styles.parking, styles.shadow]}>
           <View style={styles.hours}>
             <Text style={styles.hoursTitle}>
-              x {item.spots} {item.title}
+              {item.title}
+            </Text>
+            <Text style={styles.pendingTitle}>
+              {item.pending} are pending reservation.
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
               {this.renderHours(item.id)}
@@ -154,11 +164,11 @@ class ParkingMap extends Component {
             >
               <View style={styles.buyTotal}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <FontAwesome
+                  {/* <FontAwesome
                     name="pricetag"
                     size={theme.SIZES.icon * 1.25}
                     color={theme.COLORS.white}
-                  />
+                  /> */}
                   <Text style={styles.buyTotalPrice}>Go</Text>
                 </View>
                 <Text style={{ color: theme.COLORS.white }}>
@@ -314,7 +324,7 @@ class ParkingMap extends Component {
           <View>
             <TouchableOpacity style={styles.payBtn}>
               <Text style={styles.payText}>
-                Proceed to pay ${activeModal.price * hours[activeModal.id]}
+                Confirm Reservation
               </Text>
               <FontAwesome
                 name="angle-right"
@@ -438,7 +448,7 @@ const styles = StyleSheet.create({
   buyBtn: {
     flex: 0.5,
     justifyContent: "center",
-    alignItems: "flex-end"
+    alignItems: "flex-end",
   },
   marker: {
     flexDirection: "row",
@@ -471,7 +481,12 @@ const styles = StyleSheet.create({
   },
   hoursTitle: {
     fontSize: theme.SIZES.text,
-    fontWeight: "500"
+    fontWeight: "500",
+  },
+  pendingTitle: {
+    fontSize: theme.SIZES.text,
+    fontWeight: "500",
+    color : theme.COLORS.yellow
   },
   hoursDropdown: {
     borderRadius: theme.SIZES.base / 2,

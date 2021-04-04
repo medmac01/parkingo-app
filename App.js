@@ -5,6 +5,7 @@ import React from 'react';
 import { StyleSheet, Text, View ,Image, TouchableHighlight, Button } from 'react-native';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 import Map from './app/screens/Map';
+import Admin from './app/screens/Admin';
 // import { NavigationContainer } from '@react-navigation/native';
  
 
@@ -38,7 +39,7 @@ export default class App extends React.Component{
   // };
 
   render() {
-    return ( <Map /> );
+    return ( <Admin/> );
   }
 
 
