@@ -24,6 +24,7 @@ class PieChartWithCenteredLabels extends React.PureComponent {
             refreshing: false
         };
     }
+    
     _onRefresh = () => {
         console.log('refreshing')
         setTimeout(() => this.setState({ refreshing: false }), 3000);
@@ -57,7 +58,9 @@ class PieChartWithCenteredLabels extends React.PureComponent {
 
     render() {
          
+        const [currentDate, setCurrentDate] = useState('');
 
+        
         const data = [
             {
                 key: 1,
@@ -238,7 +241,7 @@ class PieChartWithCenteredLabels extends React.PureComponent {
                             valueAccessor={({ item }) => item.amount}
                             data={data3}
                             spacing={0}
-                        outerRadius={'95%'}
+                            outerRadius={'95%'}
                         >
                             <Labels/>
                         </PieChart>
@@ -248,13 +251,14 @@ class PieChartWithCenteredLabels extends React.PureComponent {
                             <Text style={styles.mainTitles}>
                             <Ionicons name="calendar" size={theme.SIZES.icon * 1.5} />    
                             Today's Reservations :</Text>
+                            <Text></Text>
 
                             <AreaChart
                                 style={styles.areachart}
                                 data={ dailyReservations }
                                 svg={{ fill: theme.COLORS.gray }}
                                 contentInset={{ top: 20, bottom: 30 }}
->
+                            >
                                 <Grid/>
                                 <Line/>
                                 <Decorator/>
