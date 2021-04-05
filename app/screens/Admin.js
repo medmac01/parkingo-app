@@ -2,10 +2,20 @@ import React from 'react'
 import {Text as Txt , Circle , Path} from 'react-native-svg';
 import {Text,RefreshControl,StyleSheet,View,TouchableWithoutFeedback, ScrollView, SafeAreaView} from "react-native";
 import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { PieChart, AreaChart, Grid } from 'react-native-svg-charts'
+import { PieChart, AreaChart, Grid } from 'react-native-svg-charts';
+import moment from 'moment'; 
+
+// import { 
+//     Comfortaa_300Light,
+//     Comfortaa_400Regular,
+//     Comfortaa_500Medium,
+//     Comfortaa_600SemiBold,
+//     Comfortaa_700Bold 
+//   } from '@expo-google-fonts/comfortaa';
 
 
 import * as theme from '../theme'
+import { Image } from 'react-native';
 
 var mainData = require("../../data/spots.json");
 
@@ -34,19 +44,25 @@ class PieChartWithCenteredLabels extends React.PureComponent {
     renderHeader() {
         return (
           <View style={styles.header}>
+            <Image style={styles.avatar} source={require('../assets/avatar.png')}></Image>
             <View style={{ flex: 1, justifyContent: "center" }}>
+                  
               <Text style={styles.headerTitle}>
-                  <FontAwesome name="user-circle" color={theme.COLORS.gray} style={{paddingHorizontal: theme.SIZES.base /3}} />
 
-                  Logged in as:</Text>
-              <Text style={styles.headerLocation}>Agent 157</Text>
+                  Welcome!</Text>
+              <Text style={styles.headerUsername}>Agent 157</Text>
             </View>
             <View
               style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
             >
-              <TouchableWithoutFeedback>
-                <Ionicons name="log-out" size={theme.SIZES.icon * 1.5} />
-              </TouchableWithoutFeedback>
+                <View style={{flex:1 , flexDirection:'row',alignItems:'center'}}>
+                    <TouchableWithoutFeedback onPress = {console.log('logged out')}>
+                        <Ionicons name="settings-outline" size={theme.SIZES.icon * 1.5} />
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback onPress = {console.log('logged out')}>
+                        <Ionicons name="log-out" size={theme.SIZES.icon * 1.5} />
+                    </TouchableWithoutFeedback>
+                </View>
             </View>
           </View>
         );
@@ -58,7 +74,6 @@ class PieChartWithCenteredLabels extends React.PureComponent {
 
     render() {
          
-        const [currentDate, setCurrentDate] = useState('');
 
         
         const data = [
@@ -118,7 +133,7 @@ class PieChartWithCenteredLabels extends React.PureComponent {
 
         const dailyReservations = [ 50, 10, 40, 95, 65, 102, 85, 91, 35, 53 ]
 
-        
+        var currentDate = moment().format("DD/MM/YYYY");
         const Labels = ({ slices, height, width }) => {
             return slices.map((slice, index) => {
                 const { labelCentroid, pieCentroid, data } = slice;
@@ -170,11 +185,18 @@ class PieChartWithCenteredLabels extends React.PureComponent {
                 <SafeAreaView style={styles.container}>
                     <ScrollView style={styles.scrollView} refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh} />}>
                         {this.renderHeader()}
-                        <Text style={styles.mainTitles}>
+                        <View style={styles.titleContainer}>
                             <Ionicons name="stats-chart" size={theme.SIZES.icon * 1.5} />
-                            Current Stats:</Text>
+                            <Text style={styles.mainTitles}>
+                                Current Stats:</Text>
+                        </View>
 
-                        <View style={{flexDirection: "row",flex:1,paddingHorizontal:theme.SIZES.base * 2,paddingBottom: theme.SIZES.base * 1.5}}>
+
+                        <Text style={{color:theme.COLORS.concrete,paddingHorizontal: theme.SIZES.base * 2, paddingBottom: theme.SIZES.base * 1}}>
+                            <Ionicons name="md-refresh-sharp" size={17} color={theme.COLORS.concrete} />
+                            Updated : less than a minute ago</Text>
+
+                        <View style={{flexDirection: "row",flex:1,paddingHorizontal:theme.SIZES.base * 2,paddingBottom: theme.SIZES.base * .1}}>
                              
                              <View style={{flexDirection: "row",flex:.5,paddingHorizontal:theme.SIZES.base * 0.5,paddingBottom: theme.SIZES.base * 1.5}}>
                                 <MaterialIcons name="circle" color={theme.COLORS.red}size={theme.SIZES.icon * 1} />
@@ -191,67 +213,71 @@ class PieChartWithCenteredLabels extends React.PureComponent {
 
 
                         </View>
-                        <Text style={{
-                            fontSize:27,
-                            paddingHorizontal: theme.SIZES.base * 2,
-                            paddingBottom: theme.SIZES.base * 1.5
-                        }}>
-                            <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
-                            Presidence Parking:</Text>
-                        <PieChart
-                            style={{ height: 200 }}
-                            valueAccessor={({ item }) => item.amount}
-                            data={data}
-                            spacing={0}
-                        outerRadius={'95%'}
-                        >
-                            <Labels/>
-                        </PieChart> 
+                        <View style={styles.graphContainer}>
+                            <View style={styles.titleContainer}>
+                                <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
+                                <Text style={styles.subTitles}>
+                                    Presidence Parking:</Text>
+                            </View>
 
-
-                        <Text style={{
-                            fontSize:30,
-                            paddingHorizontal: theme.SIZES.base * 2,
-                            paddingBottom: theme.SIZES.base * 1.5
-                        
-                        }}>
-                            <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
-                            Rear Parking:</Text>
-                        <PieChart
-                            style={{ height: 200 }}
-                            valueAccessor={({ item }) => item.amount}
-                            data={data2}
-                            spacing={0}
-                        outerRadius={'95%'}
-                        >
-                            <Labels/>
-                        </PieChart>
-
-                        <Text style={{
-                            fontSize:30,
-                            paddingHorizontal: theme.SIZES.base * 2,
-                            paddingBottom: theme.SIZES.base * 1.5
-                        
-                        }}
-                        >
-                            <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
-                            South Parking:</Text>
-                        <PieChart
-                            style={{ height: 200,paddingBottom:theme.SIZES.base * 1.5 }}
-                            valueAccessor={({ item }) => item.amount}
-                            data={data3}
-                            spacing={0}
+                            <PieChart
+                                style={{ height: 180 }}
+                                valueAccessor={({ item }) => item.amount}
+                                data={data}
+                                spacing={0}
                             outerRadius={'95%'}
-                        >
-                            <Labels/>
-                        </PieChart>
+                            >
+                                <Labels/>
+                            </PieChart> 
+                        </View>
+                        <View style={styles.graphContainer}>
+                            <View style={styles.titleContainer}>
+                                <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
+                                <Text style={styles.subTitles}>
+                                    Rear Parking:</Text>
+                            </View>
+
+                            <PieChart
+                                style={{ height: 180 }}
+                                valueAccessor={({ item }) => item.amount}
+                                data={data2}
+                                spacing={0}
+                            outerRadius={'95%'}
+                            >
+                                <Labels/>
+                            </PieChart> 
+                        </View>
+                        <View style={styles.graphContainer}>
+                            <View style={styles.titleContainer}>
+                                <Ionicons name="car" size={theme.SIZES.icon * 1.5} />
+                                <Text style={styles.subTitles}>
+                                    South Parking:</Text>
+                            </View>
+
+                            <PieChart
+                                style={{ height: 180 }}
+                                valueAccessor={({ item }) => item.amount}
+                                data={data3}
+                                spacing={0}
+                            outerRadius={'95%'}
+                            >
+                                <Labels/>
+                            </PieChart> 
+                        </View>
+
+                       
 
 
                         <View>
-                            <Text style={styles.mainTitles}>
-                            <Ionicons name="calendar" size={theme.SIZES.icon * 1.5} />    
-                            Today's Reservations :</Text>
-                            <Text></Text>
+                            <View style={styles.titleContainer}>
+                                <Ionicons name="pricetag" size={theme.SIZES.icon * 1.5} />    
+                                <Text style={styles.mainTitles}>
+                                Today's Reservations :</Text>
+                            </View>
+
+                            <Text style={{color:theme.COLORS.concrete,paddingHorizontal: theme.SIZES.base * 2.1, paddingBottom: theme.SIZES.base * 1}}>
+                            <Ionicons name="calendar" size={17} color={theme.COLORS.concrete} />
+                            {currentDate}</Text>
 
                             <AreaChart
                                 style={styles.areachart}
@@ -278,6 +304,13 @@ class PieChartWithCenteredLabels extends React.PureComponent {
 export default PieChartWithCenteredLabels
 
 const styles = StyleSheet.create({
+    avatar: {
+        flex:.27,
+        margin: theme.SIZES.base,
+        height: 40,
+        width: 40,
+        resizeMode: 'stretch'
+    },
     areachart: {
         height: 200,
         paddingBottom: theme.SIZES.base * 2,
@@ -286,29 +319,51 @@ const styles = StyleSheet.create({
     },
     mainTitles:{
         fontWeight:"bold",
+        // fontFamily: "Comfortaa_700Bold",
         fontSize:30,
-        paddingHorizontal: theme.SIZES.base * 2,
-        paddingBottom: theme.SIZES.base * 1.5
+        paddingHorizontal: theme.SIZES.base * .5
+    },
+    subTitles:{
+        fontSize:23,
+        fontWeight:"bold",
+        paddingHorizontal: theme.SIZES.base * .5
+    },
+    titleContainer: {
+        flexDirection:"row",
+        flex:1,
+        paddingHorizontal:theme.SIZES.base * 2,
+        paddingTop: theme.SIZES.base * .75,
+        paddingBottom: theme.SIZES.base * .75,
+        alignItems:'center' 
+    },
+    graphContainer: {
+        margin:theme.SIZES.base,
+        borderRadius:11,
+        backgroundColor:theme.COLORS.white,
+        padding:theme.SIZES.base/3
+
     },
     container: {
         flex: 1,
-        backgroundColor: theme.COLORS.white
+        backgroundColor: theme.COLORS.clouds
     },
     header: {
         flexDirection: "row",
         justifyContent: "center",
         paddingHorizontal: theme.SIZES.base * 2,
         paddingTop: theme.SIZES.base * 2.5,
-        paddingBottom: theme.SIZES.base * 1.5
+        paddingBottom: theme.SIZES.base * .5,
+        backgroundColor: theme.COLORS.white,
     },
     headerTitle: {
         color: theme.COLORS.gray,
+        fontSize:16
         
     },
-    headerLocation: {
-        fontSize: theme.SIZES.font,
-        fontWeight: "500",
-        paddingVertical: theme.SIZES.base / 3
+    headerUsername: {
+        fontSize: theme.SIZES.font * 1.25,
+        fontWeight: "bold",
+        paddingBottom: theme.SIZES.base / 3
     }
     }
 )   

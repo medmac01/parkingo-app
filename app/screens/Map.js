@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Image,
   Text,
   StyleSheet,
   View,
@@ -11,7 +12,7 @@ import {
 import MapView from "react-native-maps";
 import Modal from "react-native-modal";
 import Dropdown from "react-native-modal-dropdown";
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 // import CSVReader from 'react-csv-reader';
 
 
@@ -25,7 +26,7 @@ const input = require("../../data/spots.json");
 const parkingsSpots = [
   {
     id: 1,
-    title: "Parking 1",
+    title: "Presidence Parking",
     price: 5,
     rating: input.parkings[0].rating,
     spots: input.parkings[0].capacity,
@@ -35,11 +36,11 @@ const parkingsSpots = [
       latitude: 34.045114,
       longitude: -5.063227
     },
-    description: `Presidence Parking`
+    description: `Entrée 1`
   },
   {
     id: 2,
-    title: "Parking 2",
+    title: "Rear Parking",
     price: 7,
     rating: input.parkings[1].rating,
     spots: input.parkings[1].capacity,
@@ -49,11 +50,11 @@ const parkingsSpots = [
       latitude: 34.046813,
       longitude: -5.066030
     },
-    description: `Rear Parking`
+    description: `Entrée 1, 2`
   },
   {
     id: 3,
-    title: "Parking 3",
+    title: "South Parking",
     price: 10,
     rating: input.parkings[2].rating,
     spots: input.parkings[2].capacity,
@@ -63,7 +64,7 @@ const parkingsSpots = [
       latitude: 34.044515,
       longitude: -5.068023
     },
-    description: `South Parking`
+    description: `Entrée 2`
   }
 ];
 
@@ -96,17 +97,29 @@ class ParkingMap extends Component {
   renderHeader() {
     return (
       <View style={styles.header}>
-        <View style={{ flex: 1, justifyContent: "center" }}>
-          <Text style={styles.headerTitle}>Current parkings</Text>
-          <Text style={styles.headerLocation}>Euromed University of Fez</Text>
-        </View>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
-        >
-          <TouchableWithoutFeedback>
-            <Ionicons name="ios-menu" size={theme.SIZES.icon * 1.5} />
-          </TouchableWithoutFeedback>
-        </View>
+          <Image style={styles.avatar} source={require('../assets/avatar.png')}></Image>
+          <View style={{ flex: 1, justifyContent: "center" }}>
+                
+            <Text style={styles.headerTitle}>
+
+                Welcome!</Text>
+            <Text style={styles.headerUsername}>User</Text>
+            <Text>
+            <MaterialIcons name="location-pin" size={16} color={theme.COLORS.gray} />
+              Euromed University of Fez</Text>
+          </View>
+          <View
+            style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
+          >
+              <View style={{flex:1 , flexDirection:'row',alignItems:'center'}}>
+                  <TouchableWithoutFeedback onPress = {console.log('logged out')}>
+                      <Ionicons name="settings-outline" size={theme.SIZES.icon * 1.5} />
+                  </TouchableWithoutFeedback>
+                  <TouchableWithoutFeedback onPress = {console.log('logged out')}>
+                      <Ionicons name="log-out" size={theme.SIZES.icon * 1.5} />
+                  </TouchableWithoutFeedback>
+              </View>
+          </View>
       </View>
     );
   }
@@ -171,9 +184,7 @@ class ParkingMap extends Component {
                   /> */}
                   <Text style={styles.buyTotalPrice}>Go</Text>
                 </View>
-                <Text style={{ color: theme.COLORS.white }}>
-                  {item.price}x{hours[item.id]} hrs
-                </Text>
+                
               </View>
               <View style={styles.buyBtn}>
                 <FontAwesome
@@ -344,7 +355,7 @@ class ParkingMap extends Component {
     return (
       <View style={styles.container}>
         {this.renderHeader()}
-        <MapView initialRegion={currentPosition} style={styles.map} mapType="satellite">
+        <MapView initialRegion={currentPosition} style={styles.map} mapType="standard">
           {parkings.map(parking => (
             <Marker
               key={`marker-${parking.id}`}
@@ -390,6 +401,13 @@ ParkingMap.defaultProps = {
 export default ParkingMap;
 
 const styles = StyleSheet.create({
+  avatar: {
+    flex:.27,
+    margin: theme.SIZES.base,
+    height: 40,
+    width: 40,
+    resizeMode: 'stretch'
+},
   container: {
     flex: 1,
     backgroundColor: theme.COLORS.white
@@ -402,12 +420,13 @@ const styles = StyleSheet.create({
     paddingBottom: theme.SIZES.base * 1.5
   },
   headerTitle: {
-    color: theme.COLORS.gray
+    color: theme.COLORS.gray,
+    fontSize:16
   },
-  headerLocation: {
-    fontSize: theme.SIZES.font,
-    fontWeight: "500",
-    paddingVertical: theme.SIZES.base / 3
+  headerUsername: {
+    fontSize: theme.SIZES.font * 1.25,
+    fontWeight: "bold",
+    paddingBottom: theme.SIZES.base / 3
   },
   map: {
     flex: 3
@@ -430,7 +449,7 @@ const styles = StyleSheet.create({
   buy: {
     flex: 1,
     flexDirection: "row",
-    paddingHorizontal: theme.SIZES.base * 1.5,
+    paddingHorizontal: theme.SIZES.base,
     paddingVertical: theme.SIZES.base,
     backgroundColor: theme.COLORS.red,
     borderRadius: 6

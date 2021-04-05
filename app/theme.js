@@ -5,6 +5,8 @@ const COLORS = {
   white: '#FFFFFF',
   yellow: '#FAA916',
   overlay: '#C1BEC0',
+  concrete: '#7f8c8d',
+  clouds: '#fffafa',
 };
 
 const SIZES = {
