@@ -16,6 +16,7 @@
     "csvtojson": "^2.0.10",
     "expo": "~40.0.0",
     "expo-font": "~8.4.0",
+    "expo-notifications": "~0.8.2",
     "expo-splash-screen": "~0.8.1",
     "expo-status-bar": "~1.0.3",
     "firebase": "7.9.0",

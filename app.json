@@ -26,7 +26,8 @@
         "xhdpi": "./app/assets/splash/android/drawable-xhdpi/splash.png",
         "xxhdpi": "./app/assets/splash/android/drawable-xxhdpi/splash.png",
         "xxxhdpi": "./app/assets/splash/android/drawable-xxxhdpi/splash.png"
-      }
+      },
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./app/assets/favicon.png"

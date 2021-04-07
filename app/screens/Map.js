@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component , useState } from "react";
 import {
   Image,
+  Alert,
   Text,
   StyleSheet,
   View,
@@ -12,12 +13,13 @@ import {
 import MapView from "react-native-maps";
 import Modal from "react-native-modal";
 import Dropdown from "react-native-modal-dropdown";
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome,FontAwesome5, Ionicons, MaterialIcons, MaterialCommunityIcons } from "@expo/vector-icons";
 // import CSVReader from 'react-csv-reader';
-
+import * as Notifications from 'expo-notifications';
 
 import * as theme from "../theme";
 import { color } from "react-native-reanimated";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 const { Marker } = MapView;
 const { height, width } = Dimensions.get("screen");
@@ -70,6 +72,16 @@ const parkingsSpots = [
 
 
 class ParkingMap extends Component {
+
+
+
+
+  _onRefresh = () => {
+    console.log('refreshing')
+    setTimeout(() => this.setState({ refreshing: false }), 3000);
+    mainData = require("../../data/spots.json");
+  }
+
   state = {
     hours: {},
     active: null,
@@ -97,7 +109,7 @@ class ParkingMap extends Component {
   renderHeader() {
     return (
       <View style={styles.header}>
-          <Image style={styles.avatar} source={require('../assets/avatar.png')}></Image>
+          <Image style={styles.avatar} source={require('../assets/avatar.jpg')}></Image>
           <View style={{ flex: 1, justifyContent: "center" }}>
                 
             <Text style={styles.headerTitle}>
@@ -112,10 +124,10 @@ class ParkingMap extends Component {
             style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}
           >
               <View style={{flex:1 , flexDirection:'row',alignItems:'center'}}>
-                  <TouchableWithoutFeedback onPress = {console.log('logged out')}>
-                      <Ionicons name="settings-outline" size={theme.SIZES.icon * 1.5} />
-                  </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress = {console.log('logged out')}>
+                  <TouchableNativeFeedback onPress = {this._onRefresh()}>
+                      <Ionicons name="md-refresh-sharp" size={theme.SIZES.icon * 1.5} />
+                  </TouchableNativeFeedback>
+                  <TouchableWithoutFeedback>
                       <Ionicons name="log-out" size={theme.SIZES.icon * 1.5} />
                   </TouchableWithoutFeedback>
               </View>
@@ -136,9 +148,13 @@ class ParkingMap extends Component {
         <View style={[styles.parking, styles.shadow]}>
           <View style={styles.hours}>
             <Text style={styles.hoursTitle}>
+            <FontAwesome5 name="parking" size={theme.SIZES.font} color={theme.COLORS.red} />
+              {" "}
               {item.title}
             </Text>
             <Text style={styles.pendingTitle}>
+            <FontAwesome5 name="fire" size={theme.SIZES.text} color={theme.COLORS.yellow} />
+              {" "}
               {item.pending} are pending reservation.
             </Text>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
@@ -151,7 +167,7 @@ class ParkingMap extends Component {
               <View style={styles.parkingIcon}>
                 <Ionicons
                   name="ios-car"
-                  size={theme.SIZES.icon}
+                  size={theme.SIZES.icon * 1.2}
                   color={theme.COLORS.gray}
                 />
                 <Text style={{ marginLeft: theme.SIZES.base }}>
@@ -160,15 +176,24 @@ class ParkingMap extends Component {
                 </Text>
               </View>
               <View style={styles.parkingIcon}>
-                <Ionicons
-                  name="ios-star"
-                  size={theme.SIZES.icon}
-                  color={theme.COLORS.gray}
-                />
-                <Text style={{ marginLeft: theme.SIZES.base }}>
-                  {" "}
-                  {item.rating}
-                </Text>
+                
+                <MaterialCommunityIcons
+                name="cctv"
+                size={theme.SIZES.icon * 1.3}
+                color={theme.COLORS.gray}
+              />
+              <MaterialCommunityIcons
+                name="bike"
+                size={theme.SIZES.icon * 1.2}
+                color={theme.COLORS.gray}
+              />
+              <MaterialIcons 
+              name="accessible" 
+              size={theme.SIZES.icon * 1.3} 
+              color={theme.COLORS.gray} 
+              />
+
+                
               </View>
             </View>
             <TouchableOpacity
@@ -238,6 +263,69 @@ class ParkingMap extends Component {
     );
   }
 
+  displayEV (props) {
+    console.log("function called");
+    if (props === 1) { 
+      console.log("WELLAH ILA KHEDDAM -_-");
+      return (
+      <Text
+        style={{
+          color: theme.COLORS.gray,
+          fontSize: theme.SIZES.font * .9
+        }}
+      >
+        <MaterialIcons name="electric-scooter" size={theme.SIZES.base * 1.4} color={theme.COLORS.gray} />
+        {" "}
+        {"EV Charger Available"}
+      </Text> 
+  );           
+  }
+}
+
+createTwoButtonAlert = () =>
+    Alert.alert(
+      "Success",
+      `Your spot is reserved , and it will be valid for the next 30 min
+Your spot number is : 117
+      `,
+      [
+        {
+          text: "Cancel Reservation",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => console.log("OK Pressed") }
+      ],
+      { cancelable: false }
+    );
+
+// You might need to remove this.
+//   ModalTester() {
+//     const [isModalVisible, setModalVisible] = useState(false);
+    
+//     const toggleModal = () => {
+//       setModalVisible(!isModalVisible);
+//   };
+
+//   const toggleModal = () => {
+//     setModalVisible(!isModalVisible);
+//   };
+
+//     return (
+//       <View style={{flex: 1}}>
+//         <Button title="Show modal" onPress={toggleModal} />
+
+//         <Modal isVisible={isModalVisible}>
+//           <View style={{flex: 1}}>
+//             <Text>Hello!</Text>
+
+//             <Button title="Hide modal" onPress={toggleModal} />
+//           </View>
+//         </Modal>
+//       </View>
+//     );
+// }
+
   renderModal() {
     const { activeModal, hours } = this.state;
 
@@ -255,34 +343,49 @@ class ParkingMap extends Component {
       >
         <View style={styles.modal}>
           <View>
-            <Text style={{ fontSize: theme.SIZES.font * 1.5 }}>
+            
+            <Text style={{ fontSize: theme.SIZES.font * 1.5, fontWeight: "bold" }}>
+              <FontAwesome5 name="parking" size={theme.SIZES.font * 1.5} color={theme.COLORS.red} />
+              {" "}
               {activeModal.title}
             </Text>
           </View>
           <View style={{ paddingVertical: theme.SIZES.base }}>
+
             <Text
               style={{
-                color: theme.COLORS.gray,
+                color: theme.COLORS.concrete,
                 fontSize: theme.SIZES.font * 1.1
               }}
             >
+              <Ionicons name="ios-location-outline" size={theme.SIZES.base * 1.4} color={theme.COLORS.concrete} />
+              {" "}
               {activeModal.description}
             </Text>
           </View>
+           <View style={{ paddingBottom: theme.SIZES.base }}>           
+            {this.displayEV(activeModal.id)}
+          </View>
+          
+
+          
+          
+
           <View style={styles.modalInfo}>
             <View
               style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
             >
-              <Ionicons
-                name="ios-pricetag"
-                size={theme.SIZES.icon * 1.1}
+              <MaterialCommunityIcons
+                name="cctv"
+                size={theme.SIZES.icon * 1.3}
                 color={theme.COLORS.gray}
               />
-              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+              {/* <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
                 {" "}
-                ${activeModal.price}
-              </Text>
+                24/7
+              </Text> */}
             </View>
+
             <View
               style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
             >
@@ -291,32 +394,41 @@ class ParkingMap extends Component {
                 size={theme.SIZES.icon * 1.1}
                 color={theme.COLORS.gray}
               />
-              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+              {/* <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
                 {" "}
                 {activeModal.rating}
-              </Text>
+              </Text> */}
             </View>
+
             <View
               style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
             >
-              <Ionicons
-                name="ios-pin"
-                size={theme.SIZES.icon * 1.1}
+              <MaterialCommunityIcons
+                name="bike"
+                size={theme.SIZES.icon * 1.2}
                 color={theme.COLORS.gray}
               />
-              <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+              {/* <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
+                {" "}
+                {activeModal.rating}
+              </Text> */}
+            </View>
+
+            <View
+              style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
+            >
+              <MaterialIcons name="accessible" size={theme.SIZES.icon * 1.3} color={theme.COLORS.gray} />
+
+              {/* <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
                 {" "}
                 {activeModal.price}km
-              </Text>
+              </Text> */}
             </View>
             <View
               style={[styles.parkingIcon, { justifyContent: "flex-start" }]}
             >
-              <Ionicons
-                name="ios-car"
-                size={theme.SIZES.icon * 1.3}
-                color={theme.COLORS.gray}
-              />
+              <Ionicons name="car" size={theme.SIZES.icon * 1.3} color={theme.COLORS.gray} />
+              
               <Text style={{ fontSize: theme.SIZES.icon * 1.15 }}>
                 {" "}
                 {activeModal.free}/{activeModal.spots}
@@ -325,6 +437,8 @@ class ParkingMap extends Component {
           </View>
           <View style={styles.modalHours}>
             <Text style={{ textAlign: "center", fontWeight: "500" }}>
+              <Ionicons name={'time'} size={theme.SIZES.base * 1.2} color={theme.COLORS.white} />
+              {" "}
               Choose your Booking Period:
             </Text>
             <View style={styles.modalHoursDropdown}>
@@ -333,8 +447,10 @@ class ParkingMap extends Component {
             </View>
           </View>
           <View>
-            <TouchableOpacity style={styles.payBtn}>
+            <TouchableOpacity style={styles.payBtn} onPress={this.createTwoButtonAlert}>
               <Text style={styles.payText}>
+              {/* <FontAwesome5 name="times-circle" size={theme.SIZES.base * 1.5} color="white" /> */}
+                {/* {" "} */}
                 Confirm Reservation
               </Text>
               <FontAwesome
@@ -406,7 +522,7 @@ const styles = StyleSheet.create({
     margin: theme.SIZES.base,
     height: 40,
     width: 40,
-    resizeMode: 'stretch'
+    // resizeMode: 'stretch'
 },
   container: {
     flex: 1,
@@ -500,12 +616,13 @@ const styles = StyleSheet.create({
   },
   hoursTitle: {
     fontSize: theme.SIZES.text,
-    fontWeight: "500",
+    fontWeight: "bold",
   },
   pendingTitle: {
     fontSize: theme.SIZES.text,
     fontWeight: "500",
-    color : theme.COLORS.yellow
+    color : theme.COLORS.yellow,
+    paddingVertical: theme.SIZES.base 
   },
   hoursDropdown: {
     borderRadius: theme.SIZES.base / 2,
@@ -548,10 +665,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     paddingVertical: theme.SIZES.base,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderTopColor: theme.COLORS.overlay,
-    borderBottomColor: theme.COLORS.overlay
+    backgroundColor: theme.COLORS.clouds,
+    borderRadius: 10
   },
   modalHours: {
     paddingVertical: height * 0.11

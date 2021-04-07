@@ -7,6 +7,9 @@ const COLORS = {
   overlay: '#C1BEC0',
   concrete: '#7f8c8d',
   clouds: '#fffafa',
+  cyan: '#34aadc',
+  danger: '#ff3b30',
+
 };
 
 const SIZES = {
