@@ -85,7 +85,8 @@ class ParkingMap extends Component {
   state = {
     hours: {},
     active: null,
-    activeModal: null
+    activeModal: null,
+    isReserved: false
   };
 
   UNSAFE_componentWillMount() {
@@ -291,7 +292,7 @@ Your spot number is : 117
       [
         {
           text: "Cancel Reservation",
-          onPress: () => console.log("Cancel Pressed"),
+          onPress: () => {this.setUnreserved()},
           style: "cancel"
         },
         { text: "OK", onPress: () => console.log("OK Pressed") }
@@ -325,6 +326,90 @@ Your spot number is : 117
 //       </View>
 //     );
 // }
+
+  setReserved() {
+    this.setState((state) => {
+      console.log("aywaa");
+      return {isReserved:true}
+    });
+  }
+  setUnreserved() {
+    this.setState((state) => {
+      console.log("aywaa");
+      return {isReserved:false}
+    });
+  }
+
+  reserve() {
+    const reserved = this.state.isReserved;
+    if(reserved == false) {
+      console.log({reserved});
+      return(
+        <TouchableOpacity style={[styles.payBtn,{backgroundColor: theme.COLORS.red}]} onPress={()=>{
+          this.setReserved();
+          this.createTwoButtonAlert;
+          this.reserve();
+        }}>
+              <Text style={styles.payText}>
+              {/* <FontAwesome5 name="times-circle" size={theme.SIZES.base * 1.5} color="white" /> */}
+                {/* {" "} */}
+                Confirm Reservation
+              </Text>
+              <FontAwesome
+                name="angle-right"
+                size={theme.SIZES.icon * 1.75}
+                color={theme.COLORS.white}
+              />
+            </TouchableOpacity>
+      );
+    } else if(reserved == true) {
+      return(
+        <TouchableOpacity style={[styles.payBtn,{backgroundColor: theme.COLORS.danger}]} onPress={this.createTwoButtonAlert}>
+              <Text style={[styles.payText,{backgroundColor: theme.COLORS.danger}]}>
+              {/* <FontAwesome5 name="times-circle" size={theme.SIZES.base * 1.5} color="white" /> */}
+                {/* {" "} */}
+                Cancel Reservation
+              </Text>
+              <FontAwesome
+                name="angle-right"
+                size={theme.SIZES.icon * 1.75}
+                color={theme.COLORS.white}
+              />
+            </TouchableOpacity>
+      );
+    }
+    
+    
+  }
+
+  spotInfo() {
+    if(!this.state.isReserved){
+      return(
+        <View style={styles.modalHours}>
+            <Text style={{ textAlign: "center", fontWeight: "500" }}>
+              <Ionicons name={'time'} size={theme.SIZES.base * 1.2} color={theme.COLORS.white} />
+              {" "}
+              Choose your Booking Period:
+            </Text>
+            <View style={styles.modalHoursDropdown}>
+              {this.renderHours(this.state.activeModal.id)}
+              <Text style={{ color: theme.COLORS.gray }}>hrs</Text>
+            </View>
+          </View>
+      )
+    } else {
+      return(
+        <View style={styles.modalHours}>
+          <Text style={{ textAlign: "center", fontWeight: "500" }}>
+                <Ionicons name={'time'} size={theme.SIZES.base * 1.2} color={theme.COLORS.white} />
+                {" "}
+                Your spot is waiting for you...
+          </Text>
+          <Text style={{fontWeight:"bold",fontSize:37,textAlign:'center',color:theme.COLORS.gray}}>217</Text>
+        </View>
+      )
+    }
+  }
 
   renderModal() {
     const { activeModal, hours } = this.state;
@@ -435,30 +520,12 @@ Your spot number is : 117
               </Text>
             </View>
           </View>
-          <View style={styles.modalHours}>
-            <Text style={{ textAlign: "center", fontWeight: "500" }}>
-              <Ionicons name={'time'} size={theme.SIZES.base * 1.2} color={theme.COLORS.white} />
-              {" "}
-              Choose your Booking Period:
-            </Text>
-            <View style={styles.modalHoursDropdown}>
-              {this.renderHours(activeModal.id)}
-              <Text style={{ color: theme.COLORS.gray }}>hrs</Text>
-            </View>
-          </View>
           <View>
-            <TouchableOpacity style={styles.payBtn} onPress={this.createTwoButtonAlert}>
-              <Text style={styles.payText}>
-              {/* <FontAwesome5 name="times-circle" size={theme.SIZES.base * 1.5} color="white" /> */}
-                {/* {" "} */}
-                Confirm Reservation
-              </Text>
-              <FontAwesome
-                name="angle-right"
-                size={theme.SIZES.icon * 1.75}
-                color={theme.COLORS.white}
-              />
-            </TouchableOpacity>
+            {this.spotInfo()}
+          </View>
+          
+          <View>
+            {this.reserve()}
           </View>
         </View>
       </Modal>
@@ -683,7 +750,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     padding: theme.SIZES.base * 1.5,
-    backgroundColor: theme.COLORS.red
   },
   payText: {
     fontWeight: "600",
